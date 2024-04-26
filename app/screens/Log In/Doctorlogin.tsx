@@ -4,6 +4,7 @@ import { useState } from "react";
 import Colors from "@/constants/Colors";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import PhoneInput from "react-native-international-phone-number";
+import React from "react";
 
 const Doctorlogin = ({ navigation }) => {
   const [email, onChangeEmail] = useState("");
@@ -12,6 +13,10 @@ const Doctorlogin = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(null);
+  function logIn() {
+    // AWS function to send network request
+    navigation.navigate("screens/Main/MainView");
+  }
   function handleInputValue(phoneNumber) {
     setPhoneNumber(phoneNumber);
   }
@@ -26,14 +31,15 @@ const Doctorlogin = ({ navigation }) => {
       }}
     >
       <Image source={{ uri: stethoscope_uri }} style={styles.image} />
-      <PhoneInput
-        value={phoneNumber}
-        onChangePhoneNumber={handleInputValue}
-        selectedCountry={selectedCountry}
-        onChangeSelectedCountry={handleSelectedCountry}
-        placeholder="Enter your phone number"
-        style={styles.phoneinput}
-      />
+      <View style={{ maxWidth: "85%" }}>
+        <PhoneInput
+          value={phoneNumber}
+          onChangePhoneNumber={handleInputValue}
+          selectedCountry={selectedCountry}
+          onChangeSelectedCountry={handleSelectedCountry}
+          placeholder="Enter your phone number"
+        />
+      </View>
       <TextInput
         value={password}
         onChangeText={(text) => onChangePassword(text)}
@@ -41,11 +47,19 @@ const Doctorlogin = ({ navigation }) => {
         placeholder="password"
         style={styles.password}
       ></TextInput>
+      <Button title="Log In" onPress={logIn}></Button>
       <Button
         title="Login as a patient"
-        onPress={() => navigation.navigate("screens/Patientlogin")}
+        onPress={() => navigation.navigate("screens/Log In/Patientlogin")}
       >
         Login as a patient
+      </Button>
+      
+      <Button
+        title="Sign Up"
+        onPress={() => navigation.push("screens/Sign Up/Doctorsignup")}
+      >
+        Sign Up
       </Button>
     </View>
   );

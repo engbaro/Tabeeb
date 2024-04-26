@@ -12,8 +12,12 @@ import { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Colors from "@/constants/Colors";
-import Doctorlogin from "./screens/Doctorlogin";
-import Patientlogin from "./screens/Patientlogin";
+import Doctorlogin from "./screens/Log In/Doctorlogin";
+import Patientlogin from "./screens/Log In/Patientlogin";
+import Doctorsignup from './screens/Sign Up/Doctorsignup';
+import Patientsignup from './screens/Sign Up/Patientsignup';
+import MainView from './screens/Main/MainView'
+import React from "react";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -49,13 +53,24 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   // const colorScheme = useColorScheme();
-  const Stack  = createNativeStackNavigator()
+  const Stack = createNativeStackNavigator();
   return (
-      <Stack.Navigator initialRouteName="screens/Patientlogin" screenOptions={{headerShown:false}}>
-        <Stack.Screen name="screens/Patientlogin" component={Patientlogin} />
-        <Stack.Screen name="screens/Doctorlogin" component={Doctorlogin} />
-      </Stack.Navigator>
-    
+    <Stack.Navigator
+      initialRouteName="screens/Log In/Patientlogin"
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen
+        name="screens/Log In/Patientlogin"
+        component={Patientlogin}
+      />
+      <Stack.Screen name="screens/Log In/Doctorlogin" component={Doctorlogin} />
+      <Stack.Screen
+        name="screens/Sign Up/Doctorsignup"
+        component={Doctorsignup}
+      />
+      <Stack.Screen name="screens/Sign Up/Patientsignup" component={Patientsignup}></Stack.Screen>
+      <Stack.Screen name ="screens/Main/MainView" component={MainView} />
+    </Stack.Navigator>
   );
 }
 
