@@ -8,6 +8,7 @@ import {
 } from "react-native-safe-area-context";
 import PhoneInput from "react-native-international-phone-number";
 import React from "react";
+import App from '../../../app/Services/AWS/awsmanager';
 
 const Patientlogin = ({ navigation }) => {
   const [email, onChangeEmail] = useState("");
@@ -36,7 +37,8 @@ const Patientlogin = ({ navigation }) => {
         paddingBottom: insets.bottom,
       }}
     >
-      <Image source={{ uri: patient_uri }} style={styles.image} />
+      <App></App>
+      {/* <Image source={{ uri: patient_uri }} style={styles.image} />
       <View style={{ maxWidth: "85%" }}>
         <PhoneInput
           value={phoneNumber}
@@ -65,7 +67,7 @@ const Patientlogin = ({ navigation }) => {
         onPress={() => navigation.push("screens/Sign Up/Patientsignup")}
       >
         Sign Up
-      </Button>
+      </Button> */}
     </View>
   );
 };

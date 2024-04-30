@@ -1,0 +1,45 @@
+{
+  "auth": {
+    "tabeebapp7a68e285": {
+      "customAuth": false,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "serviceType": "imported"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_auth_tabeebapp7a68e285_nativeClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "tabeebapp7a68e285"
+        }
+      ]
+    },
+    "AMPLIFY_auth_tabeebapp7a68e285_userPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "tabeebapp7a68e285"
+        }
+      ]
+    },
+    "AMPLIFY_auth_tabeebapp7a68e285_userPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "tabeebapp7a68e285"
+        }
+      ]
+    },
+    "AMPLIFY_auth_tabeebapp7a68e285_webClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "tabeebapp7a68e285"
+        }
+      ]
+    }
+  }
+}

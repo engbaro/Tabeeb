@@ -1,0 +1,25 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-tabeebapp-dev-115748-authRole",
+      "UnauthRoleArn": "arn:aws:iam::905418394599:role/amplify-tabeebapp-dev-115748-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::905418394599:role/amplify-tabeebapp-dev-115748-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-tabeebapp-dev-115748-deployment",
+      "UnauthRoleName": "amplify-tabeebapp-dev-115748-unauthRole",
+      "StackName": "amplify-tabeebapp-dev-115748",
+      "StackId": "arn:aws:cloudformation:us-east-1:905418394599:stack/amplify-tabeebapp-dev-115748/0bb905a0-04c8-11ef-b938-0afff13ceec3",
+      "AmplifyAppId": "d13c35xuh6v5qg"
+    },
+    "categories": {
+      "auth": {
+        "tabeebapp7a68e285": {
+          "userPoolId": "us-east-1_HLpx7d9WW",
+          "userPoolName": "tabeeb-pool-2",
+          "webClientId": "7nljli26j6p78emk68s9bv45ft",
+          "nativeClientId": "7nljli26j6p78emk68s9bv45ft"
+        }
+      }
+    }
+  }
+}
