@@ -1,13 +1,13 @@
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 import PhoneInput from "react-native-international-phone-number";
-import Colors from "../../../constants/Colors";
-import React, { useState } from "react";
-import { Insets } from "react-native";
 import {
   SafeAreaInsetsContext,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-const Doctorsignup = ({ navigation }) => {
+import Colors from "../../constants/Colors";
+
+const Patientsignup = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [firstname, setFirstname] = useState("");
@@ -26,7 +26,7 @@ const Doctorsignup = ({ navigation }) => {
     navigation.navigate("screens/Main/MainView");
   }
   return (
-    <View style={{ ...styles.container, paddingTop: insets.top+70 }}>
+    <View style={{ ...styles.container, paddingTop: insets.top + 70 }}>
       <Text style={{ fontWeight: "bold", fontSize: 32 }}>Sign Up</Text>
       <TextInput
         style={styles.field}
@@ -40,12 +40,12 @@ const Doctorsignup = ({ navigation }) => {
         placeholderTextColor={"ivory"}
         value={lastname}
       />
-      {/* <TextInput
+      <TextInput
         style={styles.field}
-        placeholder="email"
+        placeholder="email/username"
         placeholderTextColor={"ivory"}
         value={email}
-      /> */}
+      />
       <TextInput
         style={styles.field}
         placeholder="password"
@@ -54,7 +54,12 @@ const Doctorsignup = ({ navigation }) => {
         value={password}
       />
       <TextInput
-        style={{...styles.field, fontSize:10, paddingLeft:10, paddingRight:10}}
+        style={{
+          ...styles.field,
+          fontSize: 10,
+          paddingLeft: 10,
+          paddingRight: 10,
+        }}
         placeholder="confirm password"
         placeholderTextColor={"ivory"}
         secureTextEntry
@@ -68,8 +73,8 @@ const Doctorsignup = ({ navigation }) => {
           placeholder="Enter your phone number"
         />
       </View>
-          <Button title="Sign Up" onPress={signUpSubmit} />
-          <Button title="Log In" onPress={() => navigation.goBack()} />
+      <Button title="Sign Up" onPress={signUpSubmit} />
+      <Button title="Log In" onPress={() => navigation.goBack()} />
     </View>
   );
 };
@@ -92,4 +97,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Doctorsignup;
+export default Patientsignup;

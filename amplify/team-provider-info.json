@@ -13,11 +13,11 @@
     },
     "categories": {
       "auth": {
-        "tabeebapp7a68e285": {
-          "userPoolId": "us-east-1_HLpx7d9WW",
-          "userPoolName": "tabeeb-pool-2",
-          "webClientId": "7nljli26j6p78emk68s9bv45ft",
-          "nativeClientId": "7nljli26j6p78emk68s9bv45ft"
+        "tabeebapp678d0219": {
+          "userPoolId": "us-east-1_CsJzoEZz3",
+          "userPoolName": "TabeebUsers",
+          "webClientId": "48m2v9pc32cbqmdueg704s3li",
+          "nativeClientId": "48m2v9pc32cbqmdueg704s3li"
         }
       }
     }

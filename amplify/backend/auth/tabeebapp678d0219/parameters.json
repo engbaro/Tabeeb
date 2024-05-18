@@ -1,12 +1,22 @@
 {
   "authSelections": "userPoolOnly",
-  "resourceName": "tabeebapp7a68e285",
+  "resourceName": "tabeebapp678d0219",
   "serviceType": "imported",
   "region": "us-east-1",
   "usernameAttributes": [
+    "email",
     "phone_number"
   ],
-  "requiredAttributes": [],
+  "requiredAttributes": [
+    "address",
+    "birthdate",
+    "gender",
+    "phone_number",
+    "locale",
+    "email",
+    "given_name",
+    "family_name"
+  ],
   "passwordPolicyMinLength": 8,
   "passwordPolicyCharacters": [
     "Requires Lowercase",
@@ -15,9 +25,6 @@
     "Requires Symbols"
   ],
   "mfaConfiguration": "OPTIONAL",
-  "autoVerifiedAttributes": [
-    "email"
-  ],
   "mfaTypes": [
     "SMS Text Message",
     "TOTP"

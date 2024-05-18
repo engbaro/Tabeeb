@@ -8,11 +8,11 @@ import {
   Platform,
   Linking,
   TouchableOpacity,
-    ActivityIndicator,
+  ActivityIndicator,
 } from "react-native";
 import PhoneInput, { ICountry } from "react-native-international-phone-number";
 import Ionicons from "react-native-ionicons";
-import Colors from "@/constants/Colors";
+import Colors from "@/app/constants/Colors";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import MaskInput from "react-native-mask-input";
 const Page = () => {

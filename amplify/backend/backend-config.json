@@ -1,6 +1,6 @@
 {
   "auth": {
-    "tabeebapp7a68e285": {
+    "tabeebapp678d0219": {
       "customAuth": false,
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
@@ -9,35 +9,35 @@
     }
   },
   "parameters": {
-    "AMPLIFY_auth_tabeebapp7a68e285_nativeClientId": {
+    "AMPLIFY_auth_tabeebapp678d0219_nativeClientId": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "tabeebapp7a68e285"
+          "resourceName": "tabeebapp678d0219"
         }
       ]
     },
-    "AMPLIFY_auth_tabeebapp7a68e285_userPoolId": {
+    "AMPLIFY_auth_tabeebapp678d0219_userPoolId": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "tabeebapp7a68e285"
+          "resourceName": "tabeebapp678d0219"
         }
       ]
     },
-    "AMPLIFY_auth_tabeebapp7a68e285_userPoolName": {
+    "AMPLIFY_auth_tabeebapp678d0219_userPoolName": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "tabeebapp7a68e285"
+          "resourceName": "tabeebapp678d0219"
         }
       ]
     },
-    "AMPLIFY_auth_tabeebapp7a68e285_webClientId": {
+    "AMPLIFY_auth_tabeebapp678d0219_webClientId": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "tabeebapp7a68e285"
+          "resourceName": "tabeebapp678d0219"
         }
       ]
     }

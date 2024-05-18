@@ -1,13 +1,13 @@
-import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 import PhoneInput from "react-native-international-phone-number";
+import Colors from "../../constants/Colors";
+import React, { useState } from "react";
+import { Insets } from "react-native";
 import {
   SafeAreaInsetsContext,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import Colors from "../../../constants/Colors";
-
-const Patientsignup = ({ navigation }) => {
+const Doctorsignup = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [firstname, setFirstname] = useState("");
@@ -23,7 +23,7 @@ const Patientsignup = ({ navigation }) => {
   }
   function signUpSubmit() {
     // AWS function to send network request
-    navigation.navigate("screens/Main/MainView");
+    navigation.navigate("Components/Main/MainView");
   }
   return (
     <View style={{ ...styles.container, paddingTop: insets.top + 70 }}>
@@ -73,8 +73,8 @@ const Patientsignup = ({ navigation }) => {
           placeholder="Enter your phone number"
         />
       </View>
-          <Button title="Sign Up" onPress={signUpSubmit} />
-          <Button title="Log In" onPress={() => navigation.goBack()} />
+      <Button title="Sign Up" onPress={signUpSubmit} />
+      <Button title="Log In" onPress={() => navigation.goBack()} />
     </View>
   );
 };
@@ -97,4 +97,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Patientsignup;
+export default Doctorsignup;

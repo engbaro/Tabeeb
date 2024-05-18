@@ -11,12 +11,12 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Colors from "@/constants/Colors";
-import Doctorlogin from "./screens/Log In/Doctorlogin";
-import Patientlogin from "./screens/Log In/Patientlogin";
-import Doctorsignup from './screens/Sign Up/Doctorsignup';
-import Patientsignup from './screens/Sign Up/Patientsignup';
-import MainView from './screens/Main/MainView'
+import Colors from "@/app/constants/Colors";
+import Doctorlogin from "./Components/Log In/Doctorlogin";
+import Patientlogin from "./Components/Log In/Patientlogin";
+import Doctorsignup from "./Components/Sign Up/Doctorsignup";
+import Patientsignup from "./Components/Sign Up/Patientsignup";
+import MainView from "./Components/Main/MainView";
 import React from "react";
 
 export {
@@ -29,7 +29,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    SpaceMono: require("./assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
 
@@ -56,20 +56,26 @@ function RootLayoutNav() {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator
-      initialRouteName="screens/Log In/Patientlogin"
+      initialRouteName="Components/Log In/Patientlogin"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen
-        name="screens/Log In/Patientlogin"
+        name="Components/Log In/Patientlogin"
         component={Patientlogin}
       />
-      <Stack.Screen name="screens/Log In/Doctorlogin" component={Doctorlogin} />
       <Stack.Screen
-        name="screens/Sign Up/Doctorsignup"
+        name="Components/Log In/Doctorlogin"
+        component={Doctorlogin}
+      />
+      <Stack.Screen
+        name="Components/Sign Up/Doctorsignup"
         component={Doctorsignup}
       />
-      <Stack.Screen name="screens/Sign Up/Patientsignup" component={Patientsignup}></Stack.Screen>
-      <Stack.Screen name ="screens/Main/MainView" component={MainView} />
+      <Stack.Screen
+        name="Components/Sign Up/Patientsignup"
+        component={Patientsignup}
+      ></Stack.Screen>
+      <Stack.Screen name="Components/Main/MainView" component={MainView} />
     </Stack.Navigator>
   );
 }

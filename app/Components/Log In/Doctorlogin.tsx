@@ -1,25 +1,21 @@
-import { Text, TextInput, View, StyleSheet, Image, Button } from "react-native";
-import Colors from "@/constants/Colors";
+import { View, Text, TextInput, Image, StyleSheet, Button } from "react-native";
+import stethoscope from "@/app/assets/images/stethoscope.png";
 import { useState } from "react";
-import patient from "@/assets/images/patient.png";
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import Colors from "@/app/constants/Colors";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import PhoneInput from "react-native-international-phone-number";
 import React from "react";
-import App from '../../../app/Services/AWS/awsmanager';
 
-const Patientlogin = ({ navigation }) => {
+const Doctorlogin = ({ navigation }) => {
   const [email, onChangeEmail] = useState("");
   const [password, onChangePassword] = useState("");
-  const patient_uri = Image.resolveAssetSource(patient).uri;
+  const stethoscope_uri = Image.resolveAssetSource(stethoscope).uri;
   const insets = useSafeAreaInsets();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(null);
   function logIn() {
     // AWS function to send network request
-    navigation.navigate("screens/Main/MainView");
+    navigation.navigate("Components/Main/MainView");
   }
   function handleInputValue(phoneNumber) {
     setPhoneNumber(phoneNumber);
@@ -32,13 +28,9 @@ const Patientlogin = ({ navigation }) => {
       style={{
         ...styles.container,
         paddingTop: insets.top,
-        paddingLeft: insets.left,
-        paddingRight: insets.right,
-        paddingBottom: insets.bottom,
       }}
     >
-      <App></App>
-      {/* <Image source={{ uri: patient_uri }} style={styles.image} />
+      <Image source={{ uri: stethoscope_uri }} style={styles.image} />
       <View style={{ maxWidth: "85%" }}>
         <PhoneInput
           value={phoneNumber}
@@ -57,21 +49,21 @@ const Patientlogin = ({ navigation }) => {
       ></TextInput>
       <Button title="Log In" onPress={logIn}></Button>
       <Button
-        title="Login as a doctor"
-        onPress={() => navigation.navigate("screens/Log In/Doctorlogin")}
+        title="Login as a patient"
+        onPress={() => navigation.navigate("Components/Log In/Patientlogin")}
       >
         Login as a patient
       </Button>
+
       <Button
         title="Sign Up"
-        onPress={() => navigation.push("screens/Sign Up/Patientsignup")}
+        onPress={() => navigation.push("Components/Sign Up/Doctorsignup")}
       >
         Sign Up
-      </Button> */}
+      </Button>
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -80,7 +72,7 @@ const styles = StyleSheet.create({
     gap: 50,
     objectFit: "scale-down",
   },
-  email: {
+  phoneinput: {
     fontSize: 25,
   },
   password: {
@@ -91,5 +83,4 @@ const styles = StyleSheet.create({
     height: 150,
   },
 });
-
-export default Patientlogin;
+export default Doctorlogin;
