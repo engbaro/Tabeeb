@@ -1,15 +1,12 @@
-import React from "react";
+// awsService.js
 import { Amplify } from "aws-amplify";
-import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react-native";
-import { Button, StyleSheet, View } from "react-native";
-import { ConfirmSignUpInput, SignInInput, autoSignIn, confirmSignUp, signIn, signOut, signUp } from "aws-amplify/auth";
-
-import awsconfig from "../../aws-exports";
+import { signUp, confirmSignUp, autoSignIn, signIn, signOut } from "aws-amplify/auth";
+import awsconfig from "../../../src/aws-exports";
 import { SignUpParemeters } from "../../models/patient";
 
 Amplify.configure(awsconfig);
 
-async function handleSignUp({
+export async function handleSignUp({
   username,
   email,
   phone_number,
@@ -21,65 +18,67 @@ async function handleSignUp({
   creditcard,
   birthyear,
   password,
+  locale
 }: SignUpParemeters) {
   try {
+
     const { isSignUpComplete, userId, nextStep } = await signUp({
-      username,
-      password,
+      username:username,
+      password:password,
       options: {
         userAttributes: {
-          address,
-          firstname,
-          lastname,
-          paymentmethod,
-          gender,
-          creditcard,
-          birthyear,
+          address:address,
+          given_name:firstname,
+          family_name:lastname,
+          gender:gender,
+          birthdate:birthyear,
+          email:email,
+          phone_number:`+${phone_number.replace(/\D/g, '')}`,
+          locale:locale
         },
       },
     });
+    return { isSignUpComplete, userId, nextStep };
   } catch (error) {
     console.log("error signing up", error);
   }
 }
 
-async function handleSignUpConfirmation({
-  username,
-  confirmationCode
-}: ConfirmSignUpInput) {
+export async function handleSignUpConfirmation({ username, confirmationCode }) {
   try {
     const { isSignUpComplete, nextStep } = await confirmSignUp({
       username,
-      confirmationCode
+      confirmationCode,
     });
+    return { isSignUpComplete, nextStep };
   } catch (error) {
     console.log('error confirming sign up', error);
   }
 }
-async function handleAutoSignIn() {
+
+export async function handleAutoSignIn() {
   try {
     const signInOutput = await autoSignIn();
     // handle sign-in steps
+    return signInOutput;
   } catch (error) {
     console.log(error);
   }
 }
 
-async function handleSignIn({ username, password }: SignInInput) {
+export async function handleSignIn({ username, password }) {
   try {
     const { isSignedIn, nextStep } = await signIn({ username, password });
+    return { isSignedIn, nextStep };
   } catch (error) {
     console.log('error signing in', error);
   }
 }
 
-async function handleSignOut() {
+export async function handleSignOut() {
   try {
     await signOut();
   } catch (error) {
     console.log('error signing out: ', error);
   }
 }
-
-
-export default{ handleAutoSignIn, handleSignIn, handleSignOut, handleSignUpConfirmation, handleSignUp };

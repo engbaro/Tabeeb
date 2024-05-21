@@ -5,14 +5,13 @@ import {
   StyleSheet,
   TextInput,
   Button,
-  Picker,
   Switch,
   Platform,
   TouchableOpacity,
   Modal,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { handleSignUp } from "../../Services/AWS/awsmanager";
+import {handleSignUp}  from "../../Services/AWS/awsmanager";
 import PhoneInput from "react-native-international-phone-number";
 import { SignUpParemeters } from "../../models/patient";
 import {
@@ -25,7 +24,6 @@ import AddressForm from "./Address";
 
 const Patientsignup = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [selectedCountry, setSelectedCountry] = useState(null);
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -37,21 +35,34 @@ const Patientsignup = ({ navigation }) => {
   const [date, setDate] = useState(`${new Date()}`);
   const updateFullAddress = (concatenatedProps) => {
     setAddress(concatenatedProps);
-    console.log(address);
   };
   function handleInputValue(phoneNumber) {
     setPhoneNumber(phoneNumber);
   }
-  function handleSelectedCountry(country) {
-    setSelectedCountry(country.name.en);
-  }
+  // Function to format the phone number
+  const formatPhoneNumber = (input) => {
+    // Implement your formatting logic here
+    // For example, you can add dashes or parentheses to the phone number
+    // Here's a basic example:
+    const formattedNumber = input.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+    return formattedNumber;
+  };
+  // Function to handle changes in the phone number input
+  const handlePhoneNumberChange = (text) => {
+    // Remove non-digit characters from the input
+    const digitsOnly = text.replace(/\D/g, "");
+    // Format the phone number
+    const formatted = formatPhoneNumber(digitsOnly);
+    // Update the state with the formatted phone number
+    handleInputValue(formatted);
+  };
   function signUpSubmit() {
     // AWS function to send network request
     const signUpData: SignUpParemeters = {
       username: email,
       email: email,
       phone_number: phoneNumber,
-      address: `${selectedCountry}`,
+      address: address,
       firstname: firstname,
       lastname: lastname,
       paymentmethod: "credit_card",
@@ -59,9 +70,12 @@ const Patientsignup = ({ navigation }) => {
       creditcard: "1234 5678 9012 3456",
       birthyear: `${date}`,
       password: password,
+      locale:address.substring(address.lastIndexOf(' ') + 1)
     };
-    handleSignUp();
-    navigation.navigate("Components/Main/MainView");
+    const {isSignUpComplete, userId, nextStep} = handleSignUp(signUpData);
+    if (isSignUpComplete) {
+      navigation.navigate("Components/Main/MainView", {userId,nextStep});
+    }
   }
   function handleOnPress() {
     setOpen(!open);
@@ -116,18 +130,18 @@ const Patientsignup = ({ navigation }) => {
         placeholderTextColor={"ivory"}
         secureTextEntry
       />
+      <TextInput
+      style={styles.field}
+      value={phoneNumber}
+      placeholder="Phone number"
+      placeholderTextColor={"ivory"}
+      onChangeText={handleInputValue}
+      keyboardType="phone-pad"
+      />
       <AddressForm updateFullAddress={updateFullAddress} />
-      <View style={{ maxWidth: "85%" }}>
-        <PhoneInput
-          value={phoneNumber}
-          onChangePhoneNumber={handleInputValue}
-          selectedCountry={selectedCountry}
-          onChangeSelectedCountry={handleSelectedCountry}
-          placeholder="Enter your phone number"
-        />
-      </View>
+      
       <TouchableOpacity onPress={handleOnPress}>
-        <Text>Select Date</Text>
+        <Text>Set Birthday : {date.substring(3,15)}</Text>
       </TouchableOpacity>
       <Modal animationType="slide" transparent={true} visible={open}>
         <View style={dateStyles.centeredView}>
@@ -136,6 +150,7 @@ const Patientsignup = ({ navigation }) => {
               mode="calendar"
               selected={date}
               onDateChange={handleChange}
+
             />
             <TouchableOpacity onPress={handleOnPress}>
               <Text>Done</Text>
@@ -144,7 +159,6 @@ const Patientsignup = ({ navigation }) => {
         </View>
       </Modal>
       <View>
-        <Text style={genderPickerStyles.label}>Select Gender:</Text>
         <View style={genderPickerStyles.switchContainer}>
           <Text style={genderPickerStyles.genderText}>Female</Text>
           <Switch
@@ -166,7 +180,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: Colors.background,
-    gap: 20,
+    gap: 15,
   },
   field: {
     borderRadius: 10,

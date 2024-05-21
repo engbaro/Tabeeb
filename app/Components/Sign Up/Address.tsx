@@ -1,83 +1,72 @@
 import React, { useState, useEffect } from "react";
-import { View, TextInput, Button, StyleSheet } from "react-native";
+import { View, TextInput, Button, StyleSheet, Text } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { allCountries } from "country-region-data";
+import RNPickerSelect from 'react-native-picker-select'
+import Countries from "@/app/constants/Countries";
 
 const AddressForm = ({ updateFullAddress }) => {
-  const [country, setCountry] = useState("");
-  const [province, setProvince] = useState("");
+  const [country, setCountry] = useState(null);
+  const [city, setCity] = useState("");
+  const [cities, setCities] = useState<string[]>([])
   const [postalCode, setPostalCode] = useState("");
   const [addressLine1, setAddressLine1] = useState("");
-  const [addressLine2, setAddressLine2] = useState("");
+  const [houseOrUnit, setHouseOrUnit] = useState("");
+  const [locale, setLocale] = useState("");
   const pickerItems: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.JSX.Element[] | null | undefined = [];
-  const [countries, setCountries] = useState(allCountries);
-  const concatenatedProps = `${country}, ${province}, ${postalCode}, ${addressLine1}, ${addressLine2}`;
-    const findCountryByName = (name) => {
-      console.log("Countries:", allCountries)
-    const foundCountry = countries.find(
-      (inputCountry) => inputCountry.countryName === name
-    );
-    return foundCountry ? foundCountry.regions : null;
+  const concatenatedProps = `${country}, ${postalCode}, ${addressLine1}, ${houseOrUnit}`;
+
+  const handleCountryChange = (countrytoSet) => {
+    setCountry(countrytoSet);
+    
+    const selectedCountryData = Countries.find(item => item.country === countrytoSet);
+    setLocale(selectedCountryData ? selectedCountryData.locale : "en-US")
+    setCities(selectedCountryData ? selectedCountryData.cities : []);
   };
   useEffect(() => {
-    const concatenatedProps = `${country}, ${province}, ${postalCode}, ${addressLine1}, ${addressLine2}`;
+    const concatenatedProps = `${country} ${postalCode} ${addressLine1} ${houseOrUnit} ${locale}`;
     updateFullAddress(concatenatedProps);
   }, [
     country,
-    province,
+    city,
     postalCode,
     addressLine1,
-    addressLine2,
+    houseOrUnit,
+    locale,
     updateFullAddress,
   ]);
-  // Check if allCountries is an array
-  if (Array.isArray(allCountries)) {
-    // Iterate over allCountries array
-    allCountries.forEach((country, index) => {
-      pickerItems.push(
-        <Picker.Item key={index} label={`${country[0]}`} value={country} />
-      );
-    });
-  } else {
-    console.error("allCountries is not an array.");
-  }
+
   return (
-    <View>
-      <TextInput
-        placeholder="Country"
+    <View style={pickerStyle.container}>
+      <View >
+        <RNPickerSelect
+        onValueChange={(value) => { handleCountryChange(value) }}
+        items={Countries.map(countryItem => ({
+          label: countryItem.country,
+          value:countryItem.country
+        }))}
+        placeholder={{label:"Select Country", value:null}}
         value={country}
-        onChangeText={(text) => setCountry(text)}
-      />
-      <View style={pickerStyle.container}>
-        <Picker
-          selectedValue={country}
-          onValueChange={(itemValue, itemIndex) => setCountry(itemValue)}
-        >
-          <Picker.Item label={"Select Country"} value="" />
-          {pickerItems}
-        </Picker>
-        {findCountryByName(country) ? (
-          <Picker
-            selectedValue={province}
-            onValueChange={(itemValue, itemIndex) => setProvince(itemValue)}
-            enabled={findCountryByName(country).length > 0}
-          >
-            <Picker.Item label={"Select Province/district/region"} value="" />
-            {findCountryByName(country).map((provinceToSelect, index) => (
-              <Picker.Item
-                key={index}
-                label={provinceToSelect.name}
-                value={province}
-              />
-            ))}
-          </Picker>
-        ) : null}
+        />
       </View>
+      {country && (
+        <>
+          <RNPickerSelect
+            onValueChange={(value) => setCity(value)}
+            items={cities.map(city => ({
+              label: city,
+              value: city,
+            }))}
+            placeholder={{ label: "Select a city", value: null }}
+            value={city}
+          />
+        </>
+      )}
       <TextInput
         placeholder="Postal Code"
         value={postalCode}
         onChangeText={(text) => setPostalCode(text)}
         keyboardType="numeric"
+        maxLength={7}
       />
       <TextInput
         placeholder="Address Line 1"
@@ -85,24 +74,27 @@ const AddressForm = ({ updateFullAddress }) => {
         onChangeText={(text) => setAddressLine1(text)}
       />
       <TextInput
-        placeholder="Address Line 2"
-        value={addressLine2}
-        onChangeText={(text) => setAddressLine2(text)}
+        placeholder="House or Unit number"
+        value={houseOrUnit}
+        onChangeText={(text) => setHouseOrUnit(text)}
       />
     </View>
   );
 };
 const pickerStyle = StyleSheet.create({
   container: {
-    flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "flex-start",
     paddingHorizontal: 10,
-    marginTop: 20,
+    gap: 20,
   },
   picker: {
     flex: 1, // This makes each picker take up half of the available space
     marginRight: 10, // Adds some space between the pickers
+  },
+  label: {
+    fontSize: 18,
+    marginBottom: 10,
   },
 });
 export default AddressForm;

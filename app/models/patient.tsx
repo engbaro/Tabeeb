@@ -11,6 +11,7 @@ type SignUpParemeters = {
     creditcard: string;
     birthyear: string;
     password: string;
+    locale:string;
   };
   
   type UpdateParemeters = {
