@@ -19,7 +19,7 @@ export async function handleSignUp({
   birthyear,
   password,
   locale
-}: SignUpParemeters) {
+}: SignUpParemeters): Promise<SignUpOutput | null> {
   try {
 
     const { isSignUpComplete, userId, nextStep } = await signUp({

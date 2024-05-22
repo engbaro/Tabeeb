@@ -23,7 +23,7 @@ const AddressForm = ({ updateFullAddress }) => {
     setCities(selectedCountryData ? selectedCountryData.cities : []);
   };
   useEffect(() => {
-    const concatenatedProps = `${country} ${postalCode} ${addressLine1} ${houseOrUnit} ${locale}`;
+    const concatenatedProps = `${country} ${city} ${postalCode} ${addressLine1} ${houseOrUnit} ${locale}`;
     updateFullAddress(concatenatedProps);
   }, [
     country,

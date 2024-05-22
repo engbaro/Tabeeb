@@ -12,5 +12,5 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "app/index.d.ts"
-, "app/Services/AWS/awsmanager.js", "app/Utilities/Utility.js"  ]
+, "app/Services/AWS/awsmanager.tsx", "app/Utilities/Utility.js"  ]
 }

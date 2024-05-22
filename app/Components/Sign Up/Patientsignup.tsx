@@ -56,7 +56,7 @@ const Patientsignup = ({ navigation }) => {
     // Update the state with the formatted phone number
     handleInputValue(formatted);
   };
-  function signUpSubmit() {
+  async function signUpSubmit() {
     // AWS function to send network request
     const signUpData: SignUpParemeters = {
       username: email,
@@ -68,19 +68,59 @@ const Patientsignup = ({ navigation }) => {
       paymentmethod: "credit_card",
       gender: gender,
       creditcard: "1234 5678 9012 3456",
-      birthyear: `${date}`,
+      birthyear: convertDateFormat(date),
       password: password,
       locale:address.substring(address.lastIndexOf(' ') + 1)
     };
-    const {isSignUpComplete, userId, nextStep} = handleSignUp(signUpData);
-    if (isSignUpComplete) {
-      navigation.navigate("Components/Main/MainView", {userId,nextStep});
+    const signUpResult = await handleSignUp(signUpData);
+    if (signUpResult) {
+      const { isSignUpComplete, userId, nextStep } = signUpResult;
+      console.log("Sign Up complete status:", isSignUpComplete)
+      if (isSignUpComplete) {
+        navigation.navigate("Components/Main/MainView");
+      } else {
+        console.log("Next step:", nextStep);
+        // navigation.navigate('VerificationScreen', { userId });
+      }
+    } else {
+      // Handle sign-up failure (optional)
+      console.log('Sign-up failed');
+    }
+    
+  }
+  function convertDateFormat(dateString) {
+    // Regular expression patterns for both date formats
+    const slashDatePattern = /^\d{4}\/\d{2}\/\d{2}$/;
+    const longDatePattern = /^[A-Za-z]{3} [A-Za-z]{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} GMT[-+]\d{4}$/;
+  
+    if (slashDatePattern.test(dateString)) {
+      // Format YYYY/MM/DD
+      return dateString.replace(/\//g, '-');
+    } else if (longDatePattern.test(dateString)) {
+      // Format Tue May 21 2024 23:33:01 GMT-0700
+      const parsedDate = new Date(dateString);
+  
+      // Check if the parsed date is valid
+      if (isNaN(parsedDate)) {
+        console.log("Date in question", dateString);
+        throw new Error("Invalid date format.");
+      }
+  
+      const year = parsedDate.getFullYear();
+      const month = String(parsedDate.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+      const day = String(parsedDate.getDate()).padStart(2, '0');
+  
+      return `${year}-${month}-${day}`;
+    } else {
+      console.log("Date in question", dateString);
+      throw new Error("Invalid date format. Expected format is YYYY/MM/DD or a valid date string like 'Tue May 21 2024 23:33:01 GMT-0700'.");
     }
   }
+  
   function handleOnPress() {
     setOpen(!open);
   }
-  function handleChange(propDate) {
+  function handleChange(propDate: any) {
     setDate(propDate);
     console.log(propDate);
   }
