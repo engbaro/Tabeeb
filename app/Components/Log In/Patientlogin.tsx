@@ -27,6 +27,7 @@ const Patientlogin = ({ navigation }) => {
   function handleSelectedCountry(country) {
     setSelectedCountry(country);
   }
+ 
   return (
     <View
       style={{

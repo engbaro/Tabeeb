@@ -36,6 +36,10 @@ export async function handleSignUp({
           phone_number:`+${phone_number.replace(/\D/g, '')}`,
           locale:locale
         },
+        autoSignIn: {
+          // optional - enables auto sign in after user is confirmed
+          enabled: true
+        }
       },
     });
     return { isSignUpComplete, userId, nextStep };
@@ -43,7 +47,6 @@ export async function handleSignUp({
     console.log("error signing up", error);
   }
 }
-
 export async function handleSignUpConfirmation({ username, confirmationCode }) {
   try {
     const { isSignUpComplete, nextStep } = await confirmSignUp({

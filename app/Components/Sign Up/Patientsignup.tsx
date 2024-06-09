@@ -11,7 +11,7 @@ import {
   Modal,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import {handleSignUp}  from "../../Services/AWS/awsmanager";
+import {handleSignUp, handleSignUpConfirmation}  from "../../Services/AWS/awsmanager";
 import PhoneInput from "react-native-international-phone-number";
 import { SignUpParemeters } from "../../models/patient";
 import {
@@ -21,6 +21,8 @@ import {
 import Colors from "../../constants/Colors";
 import DatePicker from "react-native-modern-datepicker";
 import AddressForm from "./Address";
+import { signIn } from "aws-amplify/auth";
+import Utils from '@/app/Utilities/Utility'
 
 const Patientsignup = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -33,35 +35,21 @@ const Patientsignup = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState(`${new Date()}`);
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [confirmationCode, setConfirmationCode] = useState("");
   const updateFullAddress = (concatenatedProps) => {
     setAddress(concatenatedProps);
   };
   function handleInputValue(phoneNumber) {
     setPhoneNumber(phoneNumber);
   }
-  // Function to format the phone number
-  const formatPhoneNumber = (input) => {
-    // Implement your formatting logic here
-    // For example, you can add dashes or parentheses to the phone number
-    // Here's a basic example:
-    const formattedNumber = input.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-    return formattedNumber;
-  };
-  // Function to handle changes in the phone number input
-  const handlePhoneNumberChange = (text) => {
-    // Remove non-digit characters from the input
-    const digitsOnly = text.replace(/\D/g, "");
-    // Format the phone number
-    const formatted = formatPhoneNumber(digitsOnly);
-    // Update the state with the formatted phone number
-    handleInputValue(formatted);
-  };
+
   async function signUpSubmit() {
     // AWS function to send network request
     const signUpData: SignUpParemeters = {
       username: email,
       email: email,
-      phone_number: phoneNumber,
+      phone_number: Utils.formatPhoneNumber(phoneNumber, Utils.getFirstPartBeforeSpace(address)),
       address: address,
       firstname: firstname,
       lastname: lastname,
@@ -76,17 +64,30 @@ const Patientsignup = ({ navigation }) => {
     if (signUpResult) {
       const { isSignUpComplete, userId, nextStep } = signUpResult;
       console.log("Sign Up complete status:", isSignUpComplete)
-      if (isSignUpComplete) {
-        navigation.navigate("Components/Main/MainView");
-      } else {
-        console.log("Next step:", nextStep);
-        // navigation.navigate('VerificationScreen', { userId });
+      if (!isSignUpComplete && nextStep) {
+        setOpenConfirm(true);
       }
+      // else if (isSignUpComplete) {
+      //   navigation.navigate("Components/Main/MainView");
+      // } else {
+      //   console.log("Next step:", nextStep);
+      //   // navigation.navigate('VerificationScreen', { userId });
+      // }
     } else {
       // Handle sign-up failure (optional)
       console.log('Sign-up failed');
     }
     
+  }
+  async function confirmSignUp(){
+    const username = email;
+    const confirmationResult = await handleSignUpConfirmation({ username, confirmationCode })
+    if (!confirmationResult?.isSignUpComplete && confirmationResult?.nextStep){
+      // continue authentication
+    }else{
+      setOpenConfirm(false)
+      navigation.navigate("Components/Main/MainView");
+    }
   }
   function convertDateFormat(dateString) {
     // Regular expression patterns for both date formats
@@ -177,6 +178,7 @@ const Patientsignup = ({ navigation }) => {
       placeholderTextColor={"ivory"}
       onChangeText={handleInputValue}
       keyboardType="phone-pad"
+      maxLength={11}
       />
       <AddressForm updateFullAddress={updateFullAddress} />
       
@@ -194,6 +196,16 @@ const Patientsignup = ({ navigation }) => {
             />
             <TouchableOpacity onPress={handleOnPress}>
               <Text>Done</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      <Modal animationType="slide" transparent={true} visible={openConfirm}>
+        <View style={dateStyles.centeredView}>
+          <View style={dateStyles.modalView}>
+            <TextInput style={styles.field} placeholder="Confirmation code" value={confirmationCode} onChangeText={setConfirmationCode}></TextInput>
+            <TouchableOpacity onPress={handleOnPress}>
+              <Text onPress={confirmSignUp}>Confirm</Text>
             </TouchableOpacity>
           </View>
         </View>
