@@ -5,7 +5,6 @@ import awsconfig from "../../../src/aws-exports";
 import { SignUpParemeters } from "../../models/patient";
 
 Amplify.configure(awsconfig);
-
 export async function handleSignUp({
   username,
   email,
@@ -18,10 +17,13 @@ export async function handleSignUp({
   creditcard,
   birthyear,
   password,
-  locale
+  locale,
+  specialization,
+  category,
+  doctorl_status,
+  role
 }: SignUpParemeters): Promise<SignUpOutput | null> {
   try {
-
     const { isSignUpComplete, userId, nextStep } = await signUp({
       username:username,
       password:password,
@@ -34,7 +36,13 @@ export async function handleSignUp({
           birthdate:birthyear,
           email:email,
           phone_number:`+${phone_number.replace(/\D/g, '')}`,
-          locale:locale
+          locale:locale,
+          'custom:specialization':specialization,
+          'custom:category':category,
+          'custom:doctorl_status':doctorl_status,
+          'custom:card_number':creditcard,
+          'custom:payment_type':paymentmethod,
+          'custom:role':role
         },
         autoSignIn: {
           // optional - enables auto sign in after user is confirmed
@@ -71,10 +79,14 @@ export async function handleAutoSignIn() {
 
 export async function handleSignIn({ username, password }) {
   try {
-    const { isSignedIn, nextStep } = await signIn({ username, password });
+    const { isSignedIn, nextStep } = await signIn({ username, password,
+      options: {
+        authFlowType: "USER_PASSWORD_AUTH",
+      },
+     });
     return { isSignedIn, nextStep };
   } catch (error) {
-    console.log('error signing in', error);
+    console.log('error signing in', error, "with " , username, password);
   }
 }
 

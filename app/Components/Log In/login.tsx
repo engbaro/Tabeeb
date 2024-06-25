@@ -7,6 +7,7 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import PhoneInput from "react-native-international-phone-number";
+import {handleSignIn}  from "../../Services/AWS/awsmanager";
 import React from "react";
 import App from "../../Services/AWS/awsmanager";
 
@@ -17,9 +18,16 @@ const Patientlogin = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(null);
-  function logIn() {
+  async function logIn() {
     // AWS function to send network request
-    navigation.navigate("Components/Main/MainView");
+    const signInResults = await handleSignIn({username:email, password:password });
+    if (signInResults){
+      const {isSignedIn, nextStep} = signInResults;
+      if(isSignedIn){
+        navigation.push("Components/Main/MainView");
+      }
+    }
+    
   }
   function handleInputValue(phoneNumber) {
     setPhoneNumber(phoneNumber);
@@ -39,15 +47,13 @@ const Patientlogin = ({ navigation }) => {
       }}
     >
       <Image source={{ uri: patient_uri }} style={styles.image} />
-      <View style={{ maxWidth: "85%" }}>
-        <PhoneInput
-          value={phoneNumber}
-          onChangePhoneNumber={handleInputValue}
-          selectedCountry={selectedCountry}
-          onChangeSelectedCountry={handleSelectedCountry}
-          placeholder="Enter your phone number"
-        />
-      </View>
+      <TextInput
+        style={styles.field}
+        placeholder="email"
+        placeholderTextColor={"ivory"}
+        value={email}
+        onChangeText={onChangeEmail}
+      />
       <TextInput
         value={password}
         onChangeText={(text) => onChangePassword(text)}
@@ -56,12 +62,6 @@ const Patientlogin = ({ navigation }) => {
         style={styles.password}
       ></TextInput>
       <Button title="Log In" onPress={logIn}></Button>
-      <Button
-        title="Login as a doctor"
-        onPress={() => navigation.navigate("Log In/Doctorlogin")}
-      >
-        Login as a patient
-      </Button>
       <Button
         title="Sign Up"
         onPress={() => navigation.push("Components/Sign Up/Patientsignup")}
@@ -89,6 +89,16 @@ const styles = StyleSheet.create({
   image: {
     width: 150,
     height: 150,
+  },
+  field: {
+    borderRadius: 10,
+    borderColor: Colors.gray,
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: Colors.gray,
+    color: "#fff",
+    width: "40%",
+    textAlign: "center",
   },
 });
 

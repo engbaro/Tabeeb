@@ -11,10 +11,10 @@ import { Link, Redirect, Stack } from "expo-router";
 import Colors from "@/app/constants/Colors";
 import hands from "@/app/assets/images/hands.png";
 import Doctorlogin from "./Log In/Doctorlogin";
-import Patientlogin from "./Log In/Patientlogin";
+import Patientlogin from "./Log In/login";
 import MainView from "./Main/MainView";
 import Doctorsignup from "./Sign Up/Doctorsignup";
-import Patientsignup from "./Sign Up/Patientsignup";
+import Patientsignup from "./Sign Up/signup";
 const hands_image = Image.resolveAssetSource(hands).uri;
 const App = () => {
   const openLink = () => {

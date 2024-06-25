@@ -12,6 +12,10 @@ type SignUpParemeters = {
     birthyear: string;
     password: string;
     locale:string;
+    specialization:string;
+    category:string;
+    doctorl_status:string;
+    role:string;
   };
   
   type UpdateParemeters = {
@@ -23,8 +27,14 @@ type SignUpParemeters = {
     lastname: string;
     paymentmethod: string;
     gender: string;
-    creditcarda: string;
-    birthyear: Number;
+    creditcard: string;
+    birthyear: string;
+    password: string;
+    locale:string;
+    specialization:string;
+    category:string;
+    doctorl_status:string;
+    role:string;
   };
   
   export { SignUpParemeters, UpdateParemeters };

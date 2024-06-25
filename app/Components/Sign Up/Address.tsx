@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { View, TextInput, Button, StyleSheet, Text } from "react-native";
-import { Picker } from "@react-native-picker/picker";
 import RNPickerSelect from 'react-native-picker-select'
 import Countries from "@/app/constants/Countries";
 

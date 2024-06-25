@@ -1,6 +1,6 @@
 {
   "auth": {
-    "tabeebapp678d0219": {
+    "tabeebapp935674cb": {
       "customAuth": false,
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
@@ -8,36 +8,59 @@
       "serviceType": "imported"
     }
   },
+  "function": {
+    "autoVerifyUser": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
   "parameters": {
-    "AMPLIFY_auth_tabeebapp678d0219_nativeClientId": {
+    "AMPLIFY_auth_tabeebapp935674cb_nativeClientId": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "tabeebapp678d0219"
+          "resourceName": "tabeebapp935674cb"
         }
       ]
     },
-    "AMPLIFY_auth_tabeebapp678d0219_userPoolId": {
+    "AMPLIFY_auth_tabeebapp935674cb_userPoolId": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "tabeebapp678d0219"
+          "resourceName": "tabeebapp935674cb"
         }
       ]
     },
-    "AMPLIFY_auth_tabeebapp678d0219_userPoolName": {
+    "AMPLIFY_auth_tabeebapp935674cb_userPoolName": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "tabeebapp678d0219"
+          "resourceName": "tabeebapp935674cb"
         }
       ]
     },
-    "AMPLIFY_auth_tabeebapp678d0219_webClientId": {
+    "AMPLIFY_auth_tabeebapp935674cb_webClientId": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "tabeebapp678d0219"
+          "resourceName": "tabeebapp935674cb"
+        }
+      ]
+    },
+    "AMPLIFY_function_autoVerifyUser_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "autoVerifyUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_autoVerifyUser_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "autoVerifyUser"
         }
       ]
     }

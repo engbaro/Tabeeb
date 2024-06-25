@@ -13,9 +13,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Colors from "@/app/constants/Colors";
 import Doctorlogin from "./Components/Log In/Doctorlogin";
-import Patientlogin from "./Components/Log In/Patientlogin";
+import Patientlogin from "./Components/Log In/login";
 import Doctorsignup from "./Components/Sign Up/Doctorsignup";
-import Patientsignup from "./Components/Sign Up/Patientsignup";
+import Patientsignup from "./Components/Sign Up/signup";
 import MainView from "./Components/Main/MainView";
 import React from "react";
 

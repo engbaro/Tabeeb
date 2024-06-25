@@ -9,6 +9,7 @@ import {
   Platform,
   TouchableOpacity,
   Modal,
+  ScrollView,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import {handleSignUp, handleSignUpConfirmation}  from "../../Services/AWS/awsmanager";
@@ -21,8 +22,8 @@ import {
 import Colors from "../../constants/Colors";
 import DatePicker from "react-native-modern-datepicker";
 import AddressForm from "./Address";
-import { signIn } from "aws-amplify/auth";
 import Utils from '@/app/Utilities/Utility'
+import UserTypeForm from "./UserType";
 
 const Patientsignup = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -33,15 +34,19 @@ const Patientsignup = ({ navigation }) => {
   const [address, setAddress] = useState("");
   const [gender, setGender] = useState("Female");
   const insets = useSafeAreaInsets();
+  const [user, setUser] = useState(null);
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState(`${new Date()}`);
-  const [openConfirm, setOpenConfirm] = useState(false);
-  const [confirmationCode, setConfirmationCode] = useState("");
+  const [doctorStatus, setDoctorStatus] = useState("un-verified");
+
   const updateFullAddress = (concatenatedProps) => {
     setAddress(concatenatedProps);
   };
   function handleInputValue(phoneNumber) {
     setPhoneNumber(phoneNumber);
+  };
+  const getUser = (user) => {
+    setUser(user);
   }
 
   async function signUpSubmit() {
@@ -58,37 +63,24 @@ const Patientsignup = ({ navigation }) => {
       creditcard: "1234 5678 9012 3456",
       birthyear: convertDateFormat(date),
       password: password,
-      locale:address.substring(address.lastIndexOf(' ') + 1)
+      locale:address.substring(address.lastIndexOf(' ') + 1),
+      specialization:user["specialization"],
+      category:user["category"],
+      doctorl_status:"un-verified",
+      role:user["userType"]
     };
     const signUpResult = await handleSignUp(signUpData);
     if (signUpResult) {
       const { isSignUpComplete, userId, nextStep } = signUpResult;
-      console.log("Sign Up complete status:", isSignUpComplete)
-      if (!isSignUpComplete && nextStep) {
-        setOpenConfirm(true);
-      }
-      // else if (isSignUpComplete) {
-      //   navigation.navigate("Components/Main/MainView");
-      // } else {
-      //   console.log("Next step:", nextStep);
-      //   // navigation.navigate('VerificationScreen', { userId });
-      // }
+      console.log("Sign Up complete status:", isSignUpComplete, "for ", signUpData)
+      navigation.navigate("Components/Main/MainView");
     } else {
       // Handle sign-up failure (optional)
       console.log('Sign-up failed');
     }
     
   }
-  async function confirmSignUp(){
-    const username = email;
-    const confirmationResult = await handleSignUpConfirmation({ username, confirmationCode })
-    if (!confirmationResult?.isSignUpComplete && confirmationResult?.nextStep){
-      // continue authentication
-    }else{
-      setOpenConfirm(false)
-      navigation.navigate("Components/Main/MainView");
-    }
-  }
+  
   function convertDateFormat(dateString) {
     // Regular expression patterns for both date formats
     const slashDatePattern = /^\d{4}\/\d{2}\/\d{2}$/;
@@ -129,7 +121,7 @@ const Patientsignup = ({ navigation }) => {
     setGender((prevGender) => (prevGender === "Male" ? "Female" : "Male"));
   };
   return (
-    <View style={{ ...styles.container, paddingTop: insets.top + 70 }}>
+    <ScrollView contentContainerStyle={{ ...styles.container, paddingTop: insets.top + 70 }}>
       <Text style={{ fontWeight: "bold", fontSize: 32 }}>Sign Up</Text>
       <TextInput
         style={styles.field}
@@ -181,7 +173,7 @@ const Patientsignup = ({ navigation }) => {
       maxLength={11}
       />
       <AddressForm updateFullAddress={updateFullAddress} />
-      
+      <UserTypeForm getUser={getUser} />
       <TouchableOpacity onPress={handleOnPress}>
         <Text>Set Birthday : {date.substring(3,15)}</Text>
       </TouchableOpacity>
@@ -200,31 +192,21 @@ const Patientsignup = ({ navigation }) => {
           </View>
         </View>
       </Modal>
-      <Modal animationType="slide" transparent={true} visible={openConfirm}>
-        <View style={dateStyles.centeredView}>
-          <View style={dateStyles.modalView}>
-            <TextInput style={styles.field} placeholder="Confirmation code" value={confirmationCode} onChangeText={setConfirmationCode}></TextInput>
-            <TouchableOpacity onPress={handleOnPress}>
-              <Text onPress={confirmSignUp}>Confirm</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
       <View>
-        <View style={genderPickerStyles.switchContainer}>
-          <Text style={genderPickerStyles.genderText}>Female</Text>
+        <View style={pickerStyles.switchContainer}>
+          <Text style={pickerStyles.genderText}>Female</Text>
           <Switch
             value={gender === "Male"}
             onValueChange={toggleGender}
             thumbColor={gender === "Male" ? "#87CEEB" : "#FFB6C1"}
             trackColor={{ false: "#fff", true: "#fff" }}
           />
-          <Text style={genderPickerStyles.genderText}>Male</Text>
+          <Text style={pickerStyles.genderText}>Male</Text>
         </View>
       </View>
       <Button title="Sign Up" onPress={signUpSubmit} />
       <Button title="Log In" onPress={() => navigation.goBack()} />
-    </View>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
@@ -237,7 +219,6 @@ const styles = StyleSheet.create({
   field: {
     borderRadius: 10,
     borderColor: Colors.gray,
-    paddingTop: 10,
     paddingBottom: 10,
     backgroundColor: Colors.gray,
     color: "#fff",
@@ -245,7 +226,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-const genderPickerStyles = StyleSheet.create({
+const pickerStyles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",

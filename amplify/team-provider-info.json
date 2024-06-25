@@ -12,12 +12,18 @@
       "AmplifyAppId": "d13c35xuh6v5qg"
     },
     "categories": {
+      "function": {
+        "autoVerifyUser": {
+          "deploymentBucketName": "amplify-tabeebapp-dev-115748-deployment",
+          "s3Key": "amplify-builds/autoVerifyUser-696835514b4a57353845-build.zip"
+        }
+      },
       "auth": {
-        "tabeebapp678d0219": {
-          "userPoolId": "us-east-1_CsJzoEZz3",
-          "userPoolName": "TabeebUsers",
-          "webClientId": "48m2v9pc32cbqmdueg704s3li",
-          "nativeClientId": "48m2v9pc32cbqmdueg704s3li"
+        "tabeebapp935674cb": {
+          "userPoolId": "us-east-1_Z3B0YhoJR",
+          "userPoolName": "UserPoolTabeeb",
+          "webClientId": "2ag9s464lbp06a7d7ep7hhkf14",
+          "nativeClientId": "2ag9s464lbp06a7d7ep7hhkf14"
         }
       }
     }

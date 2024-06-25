@@ -1,11 +1,10 @@
 {
   "authSelections": "userPoolOnly",
-  "resourceName": "tabeebapp678d0219",
+  "resourceName": "tabeebapp935674cb",
   "serviceType": "imported",
   "region": "us-east-1",
   "usernameAttributes": [
-    "email",
-    "phone_number"
+    "email"
   ],
   "requiredAttributes": [
     "address",
@@ -24,9 +23,6 @@
     "Requires Numbers",
     "Requires Symbols"
   ],
-  "mfaConfiguration": "OPTIONAL",
-  "mfaTypes": [
-    "SMS Text Message",
-    "TOTP"
-  ]
+  "mfaConfiguration": "OFF",
+  "mfaTypes": []
 }

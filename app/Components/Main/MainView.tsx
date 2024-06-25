@@ -1,16 +1,23 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Button } from "react-native";
 import Colors from "../../constants/Colors";
+import {handleSignOut}  from "../../Services/AWS/awsmanager";
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 
-const MainView = () => {
-  const insets = useSafeAreaInsets();
+const MainView = ({navigation}) => {
+  const insets = useSafeAreaInsets(); 
+  async function logOut() {
+    // AWS function to send network request
+    const signInResults = await handleSignOut();
+    navigation.goBack()
+  }
   return (
     <View style={{ ...styles.container, paddingTop: insets.top }}>
       <Text>MainView</Text>
+      <Button title="Log Out" onPress={logOut}></Button>
     </View>
   );
 };
